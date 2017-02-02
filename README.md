@@ -9,7 +9,7 @@ You can install **VKPopupView** manually only. Just add content of the `VKPopupV
 **Example project** shows how to you use **VKPopupView** in a different ways.
 To test it it, clone the repo and run it from the `VKPopupViewExample` directory. 
 
-**Live demo** is available at [appetize.io](https://appetize.io/app/kybzph99cmrnwkk8k5q2c0cy3m)
+**Live demo** is available at [appetize.io](https://appetize.io/app/evamn59e6a7ng06rgq35wvtd9r)
 
 ## Usage
 When I'm saying it is easy to use - it is always true. Please take a look on it:
