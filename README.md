@@ -1,6 +1,6 @@
 ![VKPopupView banner](Assets/banner.png?raw=true)
 ## Description
-**VKCheckbox** is lightweight and easy to use blurred popup view written in Swift. You will find it very similar to your iOS folders at Springboard (Home screen).
+**VKPopupView** is lightweight and easy to use blurred popup view written in Swift. You will find it very similar to your iOS folders at Springboard (Home screen).
 
 ## Installation
 You can install **VKPopupView** manually only. Just add content of the `VKPopupView` folder into your project.
