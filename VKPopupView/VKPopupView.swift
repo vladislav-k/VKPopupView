@@ -26,20 +26,20 @@
 
 import UIKit
 
-/// Simple popup view class. 
+/// Simple popup view class.
 /// It looks like folders on your Springboard *(iOS Home screen)*
-class VKPopupView: NSObject
+open class VKPopupView: NSObject
 {
     // MARK: Public properties
     
     /// Title of the `VKPopupView`. Appears above the contentView
-    var title: String?
+    open var title: String?
     
     /// Content you want to display inside popup
     /// - Important: Max size of the contentView is `300x300`.
     /// - requires: `VKPopupView` will reset backgroundColor to `UIColor.clear`. It is done in order to match Apple's style
-    var contentView: UIView?
-    {
+    open var contentView: UIView?
+        {
         didSet
         {
             if let oldContent = oldValue
@@ -56,8 +56,8 @@ class VKPopupView: NSObject
     
     /// Set background blur style
     /// - Note: Default is `UIBlurEffectStyle.light`
-    var backgroundBlurStyle: UIBlurEffectStyle  = .light
-    {
+    open var backgroundBlurStyle: UIBlurEffectStyle  = .light
+        {
         didSet
         {
             self.viewOverlay.effect = UIBlurEffect(style: backgroundBlurStyle)
@@ -66,8 +66,8 @@ class VKPopupView: NSObject
     
     /// Set popup blur style
     /// - Note: Default is `UIBlurEffectStyle.extraLight`
-    var contentViewBlurStyle: UIBlurEffectStyle = .extraLight
-    {
+    open var contentViewBlurStyle: UIBlurEffectStyle = .extraLight
+        {
         didSet
         {
             self.containerView.effect = UIBlurEffect(style: contentViewBlurStyle)
@@ -76,15 +76,15 @@ class VKPopupView: NSObject
     
     
     /// Delegate of the VKPopupView
-    var delegate: VKPopupViewDelegate?
+    open var delegate: VKPopupViewDelegate?
     
     /// Set the animation duration for show and hide
     /// - Note: Default is `0.4` seconds
-    var animationSpeed: TimeInterval = 0.4
+    open var animationSpeed: TimeInterval = 0.4
     
     /// Constant of the content frame
     /// - Attention: Please use it as constant for all your content views
-    static let contentFrame = CGRect(x: 0, y: 0, width: 300, height: 300)
+    open static let contentFrame = CGRect(x: 0, y: 0, width: 300, height: 300)
     
     // MARK: Private properties
     // Views
@@ -108,12 +108,12 @@ class VKPopupView: NSObject
     
     /// Frame used when `VKPopupView` is shown
     fileprivate lazy var finalFrame: CGRect =
-    {
-        var size: CGFloat = 300
-        let x: CGFloat = self.viewOverlay.bounds.midX - size / 2
-        let y: CGFloat = self.viewOverlay.bounds.midY - size / 2
-
-        return CGRect(x: x, y: y, width: size, height: size)
+        {
+            var size: CGFloat = 300
+            let x: CGFloat = self.viewOverlay.bounds.midX - size / 2
+            let y: CGFloat = self.viewOverlay.bounds.midY - size / 2
+            
+            return CGRect(x: x, y: y, width: size, height: size)
     }()
     
     // MARK: Init
@@ -128,7 +128,7 @@ class VKPopupView: NSObject
     ///
     ///     let popup = VKPopup(backgroundStyle: .dark, contentViewStyle: .light)
     /// ___
-    convenience init(backgroundStyle: UIBlurEffectStyle = .light, contentViewStyle: UIBlurEffectStyle = .extraLight)
+    public convenience init(backgroundStyle: UIBlurEffectStyle = .light, contentViewStyle: UIBlurEffectStyle = .extraLight)
     {
         self.init()
         self.backgroundBlurStyle  = backgroundStyle
@@ -147,9 +147,9 @@ extension VKPopupView
     ///   - rect: Initial frame
     /// - Note: Popup will be shown from the center of the screen
     /// if `rect` is `nil`. See `zeroFrame` value.
-    func show(contentView: UIView? = nil, withTitle title: String? = nil, fromRect rect: CGRect? = nil)
+    open func show(contentView: UIView? = nil, withTitle title: String? = nil, fromRect rect: CGRect? = nil)
     {
-        self.delegate?.popupViewWillShow?(self)
+        self.delegate?.popupViewWillShow(self)
         
         self.setupViews()
         
@@ -175,28 +175,28 @@ extension VKPopupView
                 })
             }
             
-            self.delegate?.popupViewDidShow?(self)
+            self.delegate?.popupViewDidShow(self)
         }
     }
     
     /// Dismiss popup view
-    func dismiss()
+    open func dismiss()
     {
-        self.delegate?.popupViewWillHide?(self)
+        self.delegate?.popupViewWillHide(self)
         
         VKPopupView.animate(duration: self.animationSpeed, animations:
-        {
-            self.viewOverlay.alpha   = 0
-            self.labelTitle.alpha    = 0
-            self.containerView.alpha = 0
-            self.containerView.frame = self.initialFrame
+            {
+                self.viewOverlay.alpha   = 0
+                self.labelTitle.alpha    = 0
+                self.containerView.alpha = 0
+                self.containerView.frame = self.initialFrame
         })
         {
             self.containerView.removeFromSuperview()
             self.viewOverlay.removeFromSuperview()
             self.labelTitle.removeFromSuperview()
             
-            self.delegate?.popupViewDidHide?(self)
+            self.delegate?.popupViewDidHide(self)
         }
     }
 }
@@ -282,37 +282,37 @@ extension VKPopupView
     fileprivate static func animate(duration: TimeInterval, animations: (() -> Void)!, withComplection completion: (() -> Void)! = {})
     {
         UIView.animate(withDuration: duration, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0.8, options: [.curveEaseInOut], animations:
-        {
-            animations()
+            {
+                animations()
         },
-        completion:
-        {
-            finished in
-            completion()
+                       completion:
+            {
+                finished in
+                completion()
         })
     }
 }
 
 /// Protocol which will help you to catch show/hide progress of the `VKPopupView`
-@objc protocol VKPopupViewDelegate
+public protocol VKPopupViewDelegate
 {
     /// Called when `VKPopupView` is preparing to show
     ///
     /// - Parameter popupView: `VKPopupView` owner
-    @objc optional func popupViewWillShow(_ popupView: VKPopupView)
+    func popupViewWillShow(_ popupView: VKPopupView)
     
     /// Called when `VKPopupView` is shown and completed all animations
     ///
     /// - Parameter popupView: `VKPopupView` owner
-    @objc optional func popupViewDidShow(_ popupView: VKPopupView)
+    func popupViewDidShow(_ popupView: VKPopupView)
     
     /// Called when `VKPopupView` is processing to hide
     ///
     /// - Parameter popupView: `VKPopupView` owner
-    @objc optional func popupViewWillHide(_ popupView: VKPopupView)
+    func popupViewWillHide(_ popupView: VKPopupView)
     
     /// Called when `VKPopupView` become hidden and completed all animations
     ///
     /// - Parameter popupView: `VKPopupView` owner
-    @objc optional func popupViewDidHide(_ popupView: VKPopupView)
+    func popupViewDidHide(_ popupView: VKPopupView)
 }
