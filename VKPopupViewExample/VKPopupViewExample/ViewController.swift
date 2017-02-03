@@ -51,6 +51,8 @@ class ViewController: UIViewController
         
         self.buttonShow.tag = ButtonTag.show.rawValue
         self.buttonShowWithTitle.tag = ButtonTag.showWithTitle.rawValue
+        
+        self.popup.delegate = self
     }
 
     @IBAction func onButtonShow(_ sender: UIButton)
@@ -89,3 +91,25 @@ extension ViewController
     }
 }
 
+extension ViewController: VKPopupViewDelegate
+{
+    func popupViewWillShow(_ popupView: VKPopupView)
+    {
+        print("VKPopupView Will Show")
+    }
+    
+    func popupViewDidShow(_ popupView: VKPopupView)
+    {
+        print("VKPopupView Did Show")
+    }
+    
+    func popupViewWillHide(_ popupView: VKPopupView)
+    {
+        print("VKPopupView Will Hide")
+    }
+    
+    func popupViewDidHide(_ popupView: VKPopupView)
+    {
+        print("VKPopupView Did Hide")
+    }
+}
